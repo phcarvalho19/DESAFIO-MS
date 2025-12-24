@@ -1,0 +1,30 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: gateway
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://keycloak:8080/realms/hospital
+
+  cloud:
+    gateway:
+      routes:
+        - id: agendamento
+          uri: http://agendamento:8080
+          predicates:
+            - Path=/pacientes/**,/consultas/**,/cadastro/**
+
+        - id: clinica
+          uri: http://clinica:8080
+          predicates:
+            - Path=/clinica/**
+
+        - id: laboratorio
+          uri: http://laboratorio:8080
+          predicates:
+            - Path=/laboratorio/**
